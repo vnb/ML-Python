@@ -51,7 +51,7 @@ print('Plotting Data ...\n')
 
 X = np.reshape(data_1[:,0],(len(data_1),1))
 y = np.reshape(data_1[:,1],(len(data_1),1))
-m = len(X)
+
 
 
 
@@ -96,7 +96,7 @@ print('Expected theta values (approx)\n')
 print(' -3.6303\n  1.1664\n\n')
 
 # Plot the linear fit
-ax.plot(X[:,1], X@theta, 'r-',label = 'Linear Regression')
+#ax.plot(X[:,1], X@theta, 'r-',label = 'Linear Regression')
 plt.figure(1)
 plt.plot(X[:,1], X@theta, 'r-',label = 'Linear Regression')
 plt.xlabel('Profit in $10,000s')
@@ -149,19 +149,50 @@ Z = J_vals
 # Plot the surface.
 surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
+ax.set_title('Visualizing J(theta_0, theta_1)')
+ax.set_xlabel('theta_0')
+ax.set_ylabel('theta_1')
 
 
 
-# Add a color bar which maps values to colors.
-#fig.colorbar(surf, shrink=0.5, aspect=5)
-#
-#plt.show()
-#
-#space = np.logspace(-2,3,20)
-#
-#plt.contour(theta0_vals,theta1_vals,Z, 50)
 fig, ax = plt.subplots()
-cs = ax.contourf(X, Y, Z, locator=ticker.LogLocator(), cmap=cm.PuBu_r)
-cbar = fig.colorbar(cs)
+
+limits = np.logspace(-2,3,20)
+ax.limits = limits
+CS = ax.contour(X, Y, Z,20)
+plt.clf()
+
+
+#Linear Regression using scikit - Linear Regression
+X = np.reshape(data_1[:,0],(len(data_1),1))
+y = np.reshape(data_1[:,1],(len(data_1),1))
+regr = linear_model.LinearRegression()
+regr.fit(X, y)
+h = regr.predict(X)
+
+plt.scatter(X, y,  color='black')
+plt.plot(X, h, color='red', linewidth=3)
+plt.xlabel('Profit in $10,000s')
+plt.ylabel('Population of City in 10,000s')
+plt.title('Linear Regression - Profit vs Population - Using Scikit')
+#plt.xticks(())
+#plt.yticks(())
 
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
